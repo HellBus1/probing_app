@@ -3,6 +3,7 @@ package com.example.phrobingapp.connection;
 import com.example.phrobingapp.login_serv.Login_pojo;
 import com.example.phrobingapp.pojo.GetListTO;
 import com.example.phrobingapp.pojo.SubmitData;
+import com.example.phrobingapp.pojo.iklan.GetListIklan;
 
 import java.io.File;
 import java.util.Date;
@@ -12,6 +13,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -69,4 +71,7 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("target-ops")
     Call<GetListTO> getTo(@Field("user_id") Integer id);
+
+    @GET("iklan")
+    Call<GetListIklan> getIklan();
 }

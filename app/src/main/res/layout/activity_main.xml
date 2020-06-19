@@ -244,7 +244,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/promo_layanan_premium"/>
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -267,7 +267,13 @@
                     app:sliderIndicatorUnselectedColor="#FFF"
                     app:sliderScrollTimeInSec="3"
                     app:sliderStartAutoCycle="true"/>
-            </LinearLayout>
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/loading1"
+                    android:visibility="gone"/>
+            </FrameLayout>
 
             <TextView
                 android:layout_marginTop="10dp"
@@ -280,7 +286,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/layanan_premium_new"/>
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/linearLayout6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -305,7 +311,13 @@
                     app:sliderIndicatorUnselectedColor="#FFF"
                     app:sliderScrollTimeInSec="3"
                     app:sliderStartAutoCycle="true"/>
-            </LinearLayout>
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/loading2"
+                    android:visibility="gone"/>
+            </FrameLayout>
 
             <TextView
                 android:layout_marginTop="10dp"
@@ -318,7 +330,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/tarif_tegangan_menengah_dan_tegangan_tinggi" />
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/linearLayout7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -342,7 +354,13 @@
                     app:sliderIndicatorUnselectedColor="#FFF"
                     app:sliderScrollTimeInSec="3"
                     app:sliderStartAutoCycle="true"/>
-            </LinearLayout>
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/loading3"
+                    android:visibility="gone"/>
+            </FrameLayout>
         </LinearLayout>
     </ScrollView>
 </layout>
