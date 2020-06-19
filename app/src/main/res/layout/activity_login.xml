@@ -161,14 +161,11 @@
                                     app:layout_constraintTop_toTopOf="parent" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
-                        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                        <ProgressBar
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:indeterminate="true"
-                            app:mpb_progressStyle="horizontal"
                             android:id="@+id/loading_bar"
-                            android:visibility="invisible"
-                            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal" />
+                            android:visibility="invisible" />
                     </LinearLayout>
 
                 </LinearLayout>

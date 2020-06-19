@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".map.OsmMap">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/map_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/pilihTitik"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Map -->
+            <org.osmdroid.views.MapView
+                android:id="@+id/mapOSM"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="27dp"
+                android:layout_marginRight="15dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="#EEEEEE"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp">
+
+                <!-- Judul -->
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="Lokasi Rumah"
+                    android:textSize="22sp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Tombol 'GPS' -->
+
+            <!-- Pin Lokasi -->
+            <ImageView
+                android:id="@+id/marker_red"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:src="@drawable/ic_pin_location_48" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <ImageButton
+            android:id="@+id/ic_center_maps"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/circle_white"
+            android:clickable="true"
+            android:cropToPadding="true"
+            android:focusable="true"
+            android:src="@drawable/ic_my_location_black_24dp"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!-- Pilih Titik -->
+        <androidx.cardview.widget.CardView
+            android:layout_margin="10dp"
+            android:id="@+id/pilihTitik"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:cardBackgroundColor="@color/yellow"
+            android:elevation="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/map_layout">
+            <TextView
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Pilih titik sebagai lokasi"
+                android:textColor="#ffffff"
+                android:textStyle="bold"/>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

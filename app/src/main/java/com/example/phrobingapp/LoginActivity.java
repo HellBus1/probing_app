@@ -18,6 +18,8 @@ import com.example.phrobingapp.databinding.ActivityLoginBinding;
 import com.example.phrobingapp.login_serv.Data;
 import com.example.phrobingapp.login_serv.Login_pojo;
 
+import org.jetbrains.annotations.NotNull;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,23 +32,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         sharedPreferenceManager = new SharedPreferenceManager(this);
-        if (sharedPreferenceManager.getSp_sudah()){
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        }
+//        if (sharedPreferenceManager.getSp_sudah()){
+//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//            finish();
+//        }
         binding.btnLogin.setOnClickListener(this);
-        binding.btnLogin.setOnTouchListener(this);
+//        binding.btnLogin.setOnTouchListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_login:{
-                String email = binding.editUsername.getText().toString();
-                String password = binding.editPassword.getText().toString();
-                login_meth(email, password);
-            }break;
-            default:
+        if (v.getId() == R.id.btn_login) {
+            String email = binding.editUsername.getText().toString();
+            String password = binding.editPassword.getText().toString();
+            login_meth(email, password);
+//                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
         }
     }
 
@@ -59,11 +60,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onResponse(Call<Login_pojo> call, Response<Login_pojo> response) {
                 if (response.isSuccessful()){
                     binding.loadingBar.setVisibility(View.GONE);
-                    assert response.body() != null;
-                    Data data = response.body().getData();
-                    session(data);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
+                    try{
+                        Login_pojo poj = response.body();
+                        if((poj != null ? poj.getSuccess() : null) != null && poj.getData() != null){
+                            session(poj.getData());
+                            finish();
+                        }else{
+                            Toast.makeText(LoginActivity.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }else{
                     binding.loadingBar.setVisibility(View.GONE);
                     Toast.makeText(LoginActivity.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
@@ -71,9 +78,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
             @Override
-            public void onFailure(Call<Login_pojo> call, Throwable t) {
+            public void onFailure(@NotNull Call<Login_pojo> call, @NotNull Throwable t) {
                 binding.loadingBar.setVisibility(View.GONE);
-                Log.e("Login Failure -->", t.getMessage());
+                t.printStackTrace();
                 Toast.makeText(LoginActivity.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
             }
         });
@@ -84,6 +91,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         sharedPreferenceManager.saveSpString(SharedPreferenceManager.sp_email, data.getEmail());
         sharedPreferenceManager.saveSpString(SharedPreferenceManager.sp_role, data.getRole());
         sharedPreferenceManager.saveSPBoolean(SharedPreferenceManager.sp_sudah, true);
+
+        Konstanta.units = data.getUnit();
+        Konstanta.penyulangs = data.getPenyulang();
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
 
     @Override

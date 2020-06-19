@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-
     </data>
     <ScrollView
         android:layout_width="match_parent"
@@ -16,7 +15,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -35,65 +34,76 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="310dp"
+                    android:layout_width="match_parent"
                     android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginLeft="24dp"
                     android:layout_marginTop="180dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="5dp"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginEnd="2dp">
+                    app:layout_constraintTop_toTopOf="parent">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
+
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="horizontal"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginLeft="10dp"
                                 android:text="Nama : "
+                                android:textColor="#000000"
                                 android:textSize="15sp"
-                                android:textStyle="bold"
-                                android:layout_margin="5dp"
-                                android:textColor="#000000"/>
+                                android:textStyle="bold" />
+
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sample"
-                                android:textSize="15sp"
-                                android:textStyle="bold"
                                 android:id="@+id/name_p"
-                                android:layout_margin="5dp"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal"
-                            android:layout_weight="1">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Email : "
-                                android:textSize="15sp"
-                                android:textStyle="bold"
-                                android:layout_margin="5dp"
-                                android:textColor="#000000"/>
-                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Sample"
                                 android:textSize="15sp"
-                                android:textStyle="bold"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:text="Email  : "
+                                android:textColor="#000000"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
                                 android:id="@+id/email_p"
-                                android:layout_margin="5dp"/>
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sample"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -135,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:text="@string/phrobing_pelanggan"
+                android:text="@string/probing_pelanggan"
                 android:textColor="@color/green1"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -160,7 +170,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:id="@+id/tombol_phrobing"
+                        android:id="@+id/tombol_probing"
                         app:cardCornerRadius="5dp"
                         app:cardBackgroundColor="@color/green2"
                         android:layout_margin="2dp"
@@ -170,25 +180,14 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/satu"
-                                android:layout_width="20dp"
-                                android:layout_height="22dp"
-                                android:layout_marginLeft="8dp"
-                                android:src="@drawable/icon_input_probing"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
                             <TextView
                                 android:id="@+id/textView9"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:layout_marginTop="15dp"
-                                android:layout_marginBottom="15dp"
-                                android:text="@string/input_phrobing"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:text="New"
                                 android:textColor="#ffffff"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
@@ -203,7 +202,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:id="@+id/tombol_status_phrobing"
+                        android:id="@+id/tombol_status_probing"
                         app:cardBackgroundColor="@color/orange"
                         app:cardCornerRadius="5dp"
                         android:layout_margin="2dp"
@@ -214,116 +213,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
-                            <ImageView
-                                android:id="@+id/imageView10"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_marginLeft="8dp"
-                                android:src="@drawable/icon_status_probing"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginLeft="8dp"
-                                android:layout_marginTop="15dp"
-                                android:layout_marginBottom="15dp"
-                                android:text="@string/status_phrobing"
-                                android:textColor="#ffffff"
-                                android:textSize="15sp"
-                                android:textStyle="bold"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/tombol_riwayat"
-                        app:cardBackgroundColor="@color/orange"
-                        app:cardCornerRadius="5dp"
-                        android:layout_margin="2dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/imageView9"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_marginLeft="8dp"
-                                android:src="@drawable/icon_riwayat_probing"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginLeft="8dp"
-                                android:layout_marginTop="15dp"
-                                android:layout_marginBottom="15dp"
-                                android:text="@string/riwayat_phrobing"
-                                android:textColor="#ffffff"
-                                android:textSize="15sp"
-                                android:textStyle="bold"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/tombol_harian"
-                        app:cardBackgroundColor="@color/orange"
-                        app:cardCornerRadius="5dp"
-                        android:layout_margin="2dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/imageView11"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_marginLeft="8dp"
-                                android:src="@drawable/icon_probing_harian"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginLeft="8dp"
-                                android:layout_marginTop="15dp"
-                                android:layout_marginBottom="15dp"
-                                android:text="@string/phrobing_harian"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:text="Existing"
                                 android:textColor="#ffffff"
                                 android:textSize="15sp"
                                 android:textStyle="bold"

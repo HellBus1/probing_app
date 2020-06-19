@@ -1,26 +1,20 @@
-package com.example.phrobingapp.login_serv;
+package com.example.phrobingapp.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Login_pojo {
-    private static Login_pojo singleInstance = null;
+import java.util.List;
+
+public class GetListTO {
     @SerializedName("success")
     @Expose
     private Boolean success;
     @SerializedName("data")
     @Expose
-    private Data data;
+    private List<Pelanggan> data = null;
     @SerializedName("message")
     @Expose
     private String message;
-
-    public static Login_pojo getInstance(){
-        if(singleInstance == null){
-            singleInstance = new Login_pojo();
-        }
-        return singleInstance;
-    }
 
     public Boolean getSuccess() {
         return success;
@@ -30,11 +24,11 @@ public class Login_pojo {
         this.success = success;
     }
 
-    public Data getData() {
+    public List<Pelanggan> getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(List<Pelanggan> data) {
         this.data = data;
     }
 
@@ -46,4 +40,3 @@ public class Login_pojo {
         this.message = message;
     }
 }
-

@@ -1,20 +1,20 @@
 <resources>
-    <string name="app_name">Phrobing App</string>
+    <string name="app_name">Probing App</string>
     <string name="version_app">Application Version</string>
     <string name="version">0.0.1</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="phrobing_pelanggan">Phrobing Pelanggan</string>
+    <string name="probing_pelanggan">Probing Pelanggan</string>
     <string name="promo_layanan_premium">Promo Layanan Premium</string>
     <string name="layanan_premium_new">Layanan Premium (NEW)</string>
     <string name="tarif_tegangan_menengah_dan_tegangan_tinggi">Tarif Tegangan Menengah dan Tinggi</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
-    <string name="input_phrobing">Input</string>
-    <string name="status_phrobing">Status</string>
-    <string name="riwayat_phrobing">Riwayat</string>
-    <string name="phrobing_harian">Harian</string>
-    <string name="input_phrobing_s">Input Phrobing</string>
+    <string name="input_probing">Input</string>
+    <string name="status_probing">Status</string>
+    <string name="riwayat_probing">Riwayat</string>
+    <string name="probing_harian">Harian</string>
+    <string name="input_probing_s">Input Probing</string>
     <string name="nama">Nama</string>
     <string name="alamat">Alamat</string>
     <string name="foto">Foto</string>
@@ -33,9 +33,25 @@
     <string name="nama_pelanggan">Nama Pelanggan</string>
     <string name="ketrangan">Ketrangan</string>
     <string name="ambil">Ambil</string>
-    <string name="riwayat_phrobing_s">Riwayat Phrobing</string>
-    <string name="riwayat_phrobing_per_unit">Riwayat Phrobing per Unit</string>
+    <string name="riwayat_probing_s">Riwayat Probing</string>
+    <string name="riwayat_probing_per_unit">Riwayat Probing per Unit</string>
     <string name="riwayat_per_unit">Riwayat Per Unit</string>
     <string name="range_daya">Range Daya</string>
     <string name="kriteria">Kriteria</string>
+    <string name="newt">New</string>
+    <string name="exist">Existing</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pasang_baru">Pasang Baru</string>
+    <string name="title_activity_penitikan">Map</string>
+    <string name="keterangan_tambahan">Keterangan tambahan</string>
+    <string name="lokasi">Lokasi</string>
+    <string name="latlong">LatLong</string>
+    <string name="penyulang">Penyulang</string>
+    <string name="contact_person">Contact Person</string>
+    <string name="fax">Fax</string>
+    <string name="email">Email</string>
+    <string name="jenis_usaha">Jenis Usaha</string>
+    <string name="tipe_industri">Tipe Industri</string>
 </resources>
