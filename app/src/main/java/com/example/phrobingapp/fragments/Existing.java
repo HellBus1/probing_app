@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.phrobingapp.R;
+import com.example.phrobingapp.SharedPreferenceManager;
 import com.example.phrobingapp.adapter.RvAdapter;
 import com.example.phrobingapp.connection.ApiInterface;
 import com.example.phrobingapp.connection.RetrofitBuilder;
@@ -32,6 +33,7 @@ public class Existing extends AppCompatActivity {
     private RvAdapter adapter;
     private List<Pelanggan> list = new ArrayList<>();
     ActivityExistingBinding binding;
+    private SharedPreferenceManager sharedPreferenceManager;
 
     public Existing() {
         // Required empty public constructor
@@ -41,13 +43,14 @@ public class Existing extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_existing);
+        sharedPreferenceManager = new SharedPreferenceManager(this);
         init();
     }
 
     private void init(){
         binding.loadings.setVisibility(View.VISIBLE);
         ApiInterface apiInterface = RetrofitBuilder.getClient().create(ApiInterface.class);
-        Call<GetListTO> caller = apiInterface.getTo(1);
+        Call<GetListTO> caller = apiInterface.getTo(Integer.parseInt(sharedPreferenceManager.getSp_user_id()));
         caller.enqueue(new Callback<GetListTO>() {
             @Override
             public void onResponse(Call<GetListTO> call, Response<GetListTO> response) {

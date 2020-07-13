@@ -194,6 +194,14 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
                 String faximili = binding.fax.getText().toString();
                 String emails = binding.email.getText().toString();
                 String lokasis = binding.lokasi1.getText().toString();
+                String jenis_usaha = binding.jenisUsaha.getText().toString();
+                String industri = binding.industri1.getSelectedItem().toString();
+                String keterangans = binding.keterangan1.getText().toString();
+                String tarifs = binding.tarif1.getSelectedItem().toString();
+                String dayas = binding.daya1.getSelectedItem().toString();
+                String tanggalan = new java.sql.Date(getTanggal(temporary.getText().toString()).getTime()).toString();
+                String keterangant = binding.keterangant1.getText().toString();
+
 
                 RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
                 MultipartBody.Part foto = MultipartBody.Part.createFormData("foto", file.getName(), mFile);
@@ -208,24 +216,35 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
                 RequestBody id = RequestBody.create(MediaType.parse("text/plain"), "1");
                 RequestBody flag = RequestBody.create(MediaType.parse("text/plain"), "1");
 
+                RequestBody unit = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(kode_unit));
+                RequestBody penyulang = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(kode_penyulang));
+                RequestBody jenisUsaha = RequestBody.create(MediaType.parse("text/plain"), jenis_usaha);
+                RequestBody tipeIndustri = RequestBody.create(MediaType.parse("text/plain"), industri);
+                RequestBody keterangan1 = RequestBody.create(MediaType.parse("text/plain"), keterangans);
+                RequestBody tarif1 = RequestBody.create(MediaType.parse("text/plain"), tarifs);
+                RequestBody daya1 = RequestBody.create(MediaType.parse("text/plain"), dayas);
+                RequestBody tanggalan1 = RequestBody.create(MediaType.parse("text/plain"), tanggalan);
+                RequestBody keterangant1 = RequestBody.create(MediaType.parse("text/plain"), keterangant);
+
                 ApiInterface apiInterface = RetrofitBuilder.getClient().create(ApiInterface.class);
                 Call<SubmitData> caller = apiInterface.post_data(
-                        kode_unit,
-                        kode_penyulang,
-                        namaPelanggan,
-                        alamatPelanggan,
-                        telepons,
-                        contact,
-                        faximili,
-                        emails,
-                        binding.jenisUsaha.getText().toString(),
-                        binding.industri1.getSelectedItem().toString(),
-                        binding.keterangan1.getText().toString(),
-                        binding.tarif1.getSelectedItem().toString(),
-                        binding.daya1.getSelectedItem().toString(),
-                        new java.sql.Date(getTanggal(temporary.getText().toString()).getTime()).toString(),
-                        lokasis,
-                        binding.keterangant1.getText().toString()
+                        unit,
+                        foto,
+                        penyulang,
+                        nama_usaha,
+                        alamat,
+                        nomor_telp,
+                        cp,
+                        fax,
+                        email,
+                        jenisUsaha,
+                        tipeIndustri,
+                        keterangan1,
+                        tarif1,
+                        daya1,
+                        tanggalan1,
+                        latlong,
+                        keterangant1
                 );
                 caller.enqueue(new Callback<SubmitData>() {
                     @Override
@@ -234,8 +253,9 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
                             try{
                                 SubmitData subs = response.body();
                                 if(subs.getSuccess() && subs.getPesan().equals("berhasil")){
-//                                    binding.loadingSatu.setVisibility(View.GONE);
-                                    sendimage(foto, nama_usaha, alamat, nomor_telp, cp, fax, email, latlong, id, flag);
+                                    binding.loadingSatu.setVisibility(View.GONE);
+                                    startActivity(new Intent(Input2.this, MainActivity.class));
+                                    finish();
                                 }else{
                                     binding.loadingSatu.setVisibility(View.GONE);
                                     Toast.makeText(Input2.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
@@ -262,43 +282,6 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
             }break;
             default:
         }
-    }
-
-    void sendimage(MultipartBody.Part foto, RequestBody nama_usaha, RequestBody alamat, RequestBody nomor_telp, RequestBody cp, RequestBody fax, RequestBody email,
-                   RequestBody latlong, RequestBody id, RequestBody flag){
-        ApiInterface interfaceGambar = RetrofitBuilder.getClient().create(ApiInterface.class);
-        Call<SubmitData> caller = interfaceGambar.post_foto(
-                foto, nama_usaha, alamat, nomor_telp, cp, fax, email, latlong, id, flag
-        );
-        caller.enqueue(new Callback<SubmitData>() {
-            @Override
-            public void onResponse(Call<SubmitData> call, Response<SubmitData> response) {
-                if (response.isSuccessful()){
-                    binding.loadingSatu.setVisibility(View.GONE);
-                    try{
-                        SubmitData subs = response.body();
-                        if(subs.getSuccess() && subs.getPesan().equals("berhasil")){
-                            startActivity(new Intent(Input2.this, MainActivity.class));
-                            finish();
-                        }else{
-                            Toast.makeText(Input2.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }else{
-                    binding.loadingSatu.setVisibility(View.GONE);
-                    Toast.makeText(Input2.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SubmitData> call, Throwable t) {
-                binding.loadingSatu.setVisibility(View.GONE);
-                Log.e("gagal ", t.getMessage());
-                Toast.makeText(Input2.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -561,7 +544,7 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar calendar = Calendar.getInstance();
-            int year = 2004;
+            int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(MONTH);
             int dayOfMonth = calendar.get(DAY_OF_MONTH);
 

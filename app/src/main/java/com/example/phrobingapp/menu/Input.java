@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.example.phrobingapp.Konstanta;
 import com.example.phrobingapp.MainActivity;
 import com.example.phrobingapp.R;
+import com.example.phrobingapp.SharedPreferenceManager;
 import com.example.phrobingapp.connection.ApiInterface;
 import com.example.phrobingapp.connection.RetrofitBuilder;
 import com.example.phrobingapp.databinding.ActivityInputBinding;
@@ -68,6 +69,7 @@ import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,6 +91,7 @@ public class Input extends AppCompatActivity {
     public static int LOCATION_CODE = 10;
     private static String imageStoragePath;
     PelangganSerializable dene;
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -239,12 +242,28 @@ public class Input extends AppCompatActivity {
         String lokasi = activityInputBinding.lokasi12.getText().toString();
         String keteranganTambahan = activityInputBinding.keterangant1.getText().toString();
 
+        File file = new File(Objects.requireNonNull(Uri.parse(path).getPath()));
+        RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+
+        MultipartBody.Part foto = MultipartBody.Part.createFormData("foto", file.getName(), mFile);;
+        RequestBody nama_usaha = RequestBody.create(MediaType.parse("text/plain"), namaUsaha);
+        RequestBody alamat = RequestBody.create(MediaType.parse("text/plain"), alamatUsaha);
+        RequestBody nomor_telp = RequestBody.create(MediaType.parse("text/plain"), dene.getTelefon());
+        RequestBody cp = RequestBody.create(MediaType.parse("text/plain"), dene.getContactPerson());
+        RequestBody fax = RequestBody.create(MediaType.parse("text/plain"), dene.getFax());
+        RequestBody email = RequestBody.create(MediaType.parse("text/plain"), dene.getEmail());
+        RequestBody latlong = RequestBody.create(MediaType.parse("text/plain"), lokasi);
+        RequestBody keteterangantam = RequestBody.create(MediaType.parse("text/plain"), keteranganTambahan);
+        RequestBody tanggalan = RequestBody.create(MediaType.parse("text/plain"), new java.sql.Date(getTanggal(tanggal).getTime()).toString());
+        RequestBody keterangans = RequestBody.create(MediaType.parse("text/plain"), kombi);
+        RequestBody tarrifs = RequestBody.create(MediaType.parse("text/plain"), tarif);
+        RequestBody dayas = RequestBody.create(MediaType.parse("text/plain"), daya);
+        RequestBody idPel = RequestBody.create(MediaType.parse("text/plain"), idPelanggan);
+        RequestBody rekapId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(dene.getRekapId()));
         activityInputBinding.loadingKirim.setVisibility(View.VISIBLE);
         ApiInterface apiInterface = RetrofitBuilder.getClient().create(ApiInterface.class);
         Call<SubmitData> caller = apiInterface.update_data(
-                idPelanggan, tarif, daya, namaUsaha, alamatUsaha,
-                new java.sql.Date(getTanggal(tanggal).getTime()).toString(),
-                kombi, lokasi, keteranganTambahan, dene.getRekapId()
+                foto, idPel, tarrifs, dayas, nama_usaha, alamat, tanggalan, keterangans, latlong, keteterangantam, rekapId
         );
         caller.enqueue(new Callback<SubmitData>() {
             @Override
@@ -253,9 +272,12 @@ public class Input extends AppCompatActivity {
                     try{
                         SubmitData subs = response.body();
                         if(subs.getSuccess() && subs.getPesan().equals("berhasil")){
-                            sendimage(path, namaUsaha, alamatUsaha,
-                                    dene.getTelefon(), dene.getContactPerson(), dene.getFax(), dene.getEmail(),
-                                    lokasi, idPelanggan, "2");
+                            activityInputBinding.loadingKirim.setVisibility(View.GONE);
+                            startActivity(new Intent(Input.this, MainActivity.class));
+                            finish();
+//                            sendimage(path, namaUsaha, alamatUsaha,
+//                                    dene.getTelefon(), dene.getContactPerson(), dene.getFax(), dene.getEmail(),
+//                                    lokasi, idPelanggan, "2");
                         }else{
                             activityInputBinding.loadingKirim.setVisibility(View.GONE);
                             Toast.makeText(Input.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
@@ -273,56 +295,6 @@ public class Input extends AppCompatActivity {
             public void onFailure(Call<SubmitData> call, Throwable t) {
                 activityInputBinding.loadingKirim.setVisibility(View.GONE);
                 Log.e("Kesalahan ", t.getMessage());
-                Toast.makeText(Input.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    void sendimage(String fotos, String nama_usahas, String alamats, String nomor_tellps, String cps, String faxes, String emails,
-                   String latlongs, String ids, String flags){
-        File file = new File(Objects.requireNonNull(Uri.parse(fotos).getPath()));
-        RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
-
-        MultipartBody.Part foto = MultipartBody.Part.createFormData("foto", file.getName(), mFile);;
-        RequestBody nama_usaha = RequestBody.create(MediaType.parse("text/plain"), nama_usahas);
-        RequestBody alamat = RequestBody.create(MediaType.parse("text/plain"), alamats);;
-        RequestBody nomor_telp = RequestBody.create(MediaType.parse("text/plain"), nomor_tellps);
-        RequestBody cp = RequestBody.create(MediaType.parse("text/plain"), cps);
-        RequestBody fax = RequestBody.create(MediaType.parse("text/plain"), faxes);
-        RequestBody email = RequestBody.create(MediaType.parse("text/plain"), emails);
-        RequestBody latlong = RequestBody.create(MediaType.parse("text/plain"), latlongs);;
-        RequestBody id = RequestBody.create(MediaType.parse("text/plain"), ids);
-        RequestBody flag = RequestBody.create(MediaType.parse("text/plain"), flags);
-        ApiInterface interfaceGambar = RetrofitBuilder.getClient().create(ApiInterface.class);
-        Call<SubmitData> caller = interfaceGambar.post_foto(
-                foto, nama_usaha, alamat, nomor_telp, cp, fax, email, latlong, id, flag
-        );
-        caller.enqueue(new Callback<SubmitData>() {
-            @Override
-            public void onResponse(Call<SubmitData> call, Response<SubmitData> response) {
-                if (response.isSuccessful()){
-                    activityInputBinding.loadingKirim.setVisibility(View.GONE);
-                    try{
-                        SubmitData subs = response.body();
-                        if(subs.getSuccess() && subs.getPesan().equals("berhasil")){
-                            startActivity(new Intent(Input.this, MainActivity.class));
-                            finish();
-                        }else{
-                            Toast.makeText(Input.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }else{
-                    activityInputBinding.loadingKirim.setVisibility(View.GONE);
-                    Toast.makeText(Input.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SubmitData> call, Throwable t) {
-                activityInputBinding.loadingKirim.setVisibility(View.GONE);
-                Log.e("gagal ", t.getMessage());
                 Toast.makeText(Input.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
             }
         });
@@ -588,7 +560,7 @@ public class Input extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar calendar = Calendar.getInstance();
-            int year = 2004;
+            int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(MONTH);
             int dayOfMonth = calendar.get(DAY_OF_MONTH);
 

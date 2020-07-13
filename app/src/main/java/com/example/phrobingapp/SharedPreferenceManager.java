@@ -8,6 +8,7 @@ public class SharedPreferenceManager {
     public static final String sp_email = "sp_email";
     public static final String sp_role = "sp_role";
     public static final String sp_sudah = "sp_sudah";
+    public static final String user_id = "sp_user";
 
 
     private SharedPreferences sharedPreferences;
@@ -34,6 +35,10 @@ public class SharedPreferenceManager {
 
     public String getSp_email() {
         return sharedPreferences.getString(sp_email, "");
+    }
+
+    public String getSp_user_id() {
+        return sharedPreferences.getString(user_id, "");
     }
 
     public String getSp_role() {

@@ -117,6 +117,7 @@
                             android:layout_gravity="right|center"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="10dp"
+                            android:clickable="true"
                             android:src="@drawable/ic_remove_red_eye_black_24dp" />
                     </FrameLayout>
 

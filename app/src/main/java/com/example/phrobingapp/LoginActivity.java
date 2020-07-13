@@ -3,9 +3,11 @@ package com.example.phrobingapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ActivityLoginBinding binding;
     private SharedPreferenceManager sharedPreferenceManager;
 
+    @SuppressLint("ClickableViewAccessibility")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
@@ -37,7 +40,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //            finish();
 //        }
         binding.btnLogin.setOnClickListener(this);
-//        binding.btnLogin.setOnTouchListener(this);
+        binding.btnLogin.setOnTouchListener(this);
+        binding.revealPassword.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    binding.editPassword.setTransformationMethod(null);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    binding.editPassword.setTransformationMethod(new PasswordTransformationMethod());
+                }
+
+                return true;
+            }
+        });
     }
 
     @Override
@@ -46,8 +61,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String email = binding.editUsername.getText().toString();
             String password = binding.editPassword.getText().toString();
             login_meth(email, password);
-//                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
         }
     }
 
@@ -64,13 +77,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Login_pojo poj = response.body();
                         if((poj != null ? poj.getSuccess() : null) != null && poj.getData() != null){
                             session(poj.getData());
-                            finish();
                         }else{
                             Toast.makeText(LoginActivity.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
                         }
                     }catch (Exception e){
                         e.printStackTrace();
                     }
+//                    Log.e("Keberhasilan ", "Masuk sini kok");
                 }else{
                     binding.loadingBar.setVisibility(View.GONE);
                     Toast.makeText(LoginActivity.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
@@ -78,9 +91,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
             @Override
-            public void onFailure(@NotNull Call<Login_pojo> call, @NotNull Throwable t) {
+            public void onFailure(Call<Login_pojo> call, Throwable t) {
                 binding.loadingBar.setVisibility(View.GONE);
-                t.printStackTrace();
+//                Log.e("Kegagalan ", t.getMessage());
                 Toast.makeText(LoginActivity.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
             }
         });
@@ -90,6 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         sharedPreferenceManager.saveSpString(SharedPreferenceManager.sp_nama, data.getName());
         sharedPreferenceManager.saveSpString(SharedPreferenceManager.sp_email, data.getEmail());
         sharedPreferenceManager.saveSpString(SharedPreferenceManager.sp_role, data.getRole());
+        sharedPreferenceManager.saveSpString(SharedPreferenceManager.user_id, data.getUserId().toString());
         sharedPreferenceManager.saveSPBoolean(SharedPreferenceManager.sp_sudah, true);
 
         Konstanta.units = data.getUnit();

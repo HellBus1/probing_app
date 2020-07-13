@@ -23,37 +23,40 @@ public interface ApiInterface {
     @POST("login")
     Call<Login_pojo> login_conn(@Field("email") String no_uasbn,
                                 @Field("password") String tanggal_lahir);
-    @FormUrlEncoded
+//    RequestBody
+    @Multipart
     @POST("probing_new")
-    Call<SubmitData> post_data(@Field("unit") Integer unit,
-                               @Field("penyulang") Integer penyulang,
-                               @Field("nama_usaha") String nama_usaha,
-                               @Field("alamat") String alamat,
-                               @Field("nomor_telp") String nomor_telp,
-                               @Field("cp") String cp,
-                               @Field("fax") String fax,
-                               @Field("email") String email,
-                               @Field("jenis_usaha") String jenis_usaha,
-                               @Field("tipe_industri") String tipe_industri,
-                               @Field("keterangan") String keterangan,
-                               @Field("tarif") String tarif,
-                               @Field("daya") String daya,
-                               @Field("tanggal") String tanggal,
-                               @Field("latlong") String latlong,
-                               @Field("keterangan_tambahan") String keterangan_tambahan);
+    Call<SubmitData> post_data(@Part("unit") RequestBody unit,
+                               @Part MultipartBody.Part foto,
+                               @Part("penyulang") RequestBody penyulang,
+                               @Part("nama_usaha") RequestBody nama_usaha,
+                               @Part("alamat") RequestBody alamat,
+                               @Part("nomor_telp") RequestBody nomor_telp,
+                               @Part("cp") RequestBody cp,
+                               @Part("fax") RequestBody fax,
+                               @Part("email") RequestBody email,
+                               @Part("jenis_usaha") RequestBody jenis_usaha,
+                               @Part("tipe_industri") RequestBody tipe_industri,
+                               @Part("keterangan") RequestBody keterangan,
+                               @Part("tarif") RequestBody tarif,
+                               @Part("daya") RequestBody daya,
+                               @Part("tanggal") RequestBody tanggal,
+                               @Part("latlong") RequestBody latlong,
+                               @Part("keterangan_tambahan") RequestBody keterangan_tambahan);
 
-    @FormUrlEncoded
+    @Multipart
     @POST("probing_existing")
-    Call<SubmitData> update_data(@Field("id_pelanggan") String id_pelanggan,
-                                 @Field("tarif") String tarif,
-                                 @Field("daya") String daya,
-                                 @Field("nama_usaha") String nama_usaha,
-                                 @Field("alamat") String alamat,
-                                 @Field("tanggal") String tanggal,
-                                 @Field("keterangan") String keterangan,
-                                 @Field("lokasi") String lokasi,
-                                 @Field("keterangan_lainnya") String keterangan_lainnya,
-                                 @Field("rekap_id") Integer rekap_id);
+    Call<SubmitData> update_data(@Part MultipartBody.Part foto,
+                                 @Part("id_pelanggan") RequestBody id_pelanggan,
+                                 @Part("tarif") RequestBody tarif,
+                                 @Part("daya") RequestBody daya,
+                                 @Part("nama_usaha") RequestBody nama_usaha,
+                                 @Part("alamat") RequestBody alamat,
+                                 @Part("tanggal") RequestBody tanggal,
+                                 @Part("keterangan") RequestBody keterangan,
+                                 @Part("lokasi") RequestBody lokasi,
+                                 @Part("keterangan_lainnya") RequestBody keterangan_lainnya,
+                                 @Part("rekap_id") RequestBody rekap_id);
 
     @Multipart
     @POST("uploader")
