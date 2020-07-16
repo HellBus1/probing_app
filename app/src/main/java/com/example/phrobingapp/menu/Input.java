@@ -103,6 +103,7 @@ public class Input extends AppCompatActivity {
         activityInputBinding.idPelanggan.setText(String.valueOf(dene.getPelangganId()));
         activityInputBinding.namaPelanggan.setText(dene.getNamaUsaha());
         activityInputBinding.alamatPelanggan.setText(dene.getAlamat());
+        activityInputBinding.unitu.setText(dene.getUnitulp());
 
         temporary = findViewById(R.id.tanggal);
         adjustEditText();
@@ -136,25 +137,38 @@ public class Input extends AppCompatActivity {
         activityInputBinding.listKeterangan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(adapter.getItem(position).equals("Premium")){
-                    activityInputBinding.dropPremium.setVisibility(View.VISIBLE);
-                }else{
-                    activityInputBinding.dropPremium.setVisibility(View.GONE);
-                }
-
-                if(adapter.getItem(position).equals("Lain - Lain")){
-                    activityInputBinding.lainLain.setVisibility(View.VISIBLE);
-                }else{
-                    activityInputBinding.lainLain.setVisibility(View.GONE);
-                }
+//                if(adapter.getItem(position).equals("Premium")){
+//                    activityInputBinding.dropPremium.setVisibility(View.VISIBLE);
+//                }else{
+//                    activityInputBinding.dropPremium.setVisibility(View.GONE);
+//                }
+//
+//                if(adapter.getItem(position).equals("Lain - Lain")){
+//                    activityInputBinding.lainLain.setVisibility(View.VISIBLE);
+//                }else{
+//                    activityInputBinding.lainLain.setVisibility(View.GONE);
+//                }
 
                 if(adapter.getItem(position).equals("Multiguna")){
                     activityInputBinding.tarifM.setVisibility(View.VISIBLE);
                     activityInputBinding.tarif12.setVisibility(View.GONE);
+                    activityInputBinding.dayamul.setVisibility(View.VISIBLE);
+                    activityInputBinding.dayan.setVisibility(View.GONE);
                 }else{
                     activityInputBinding.tarifM.setVisibility(View.GONE);
                     activityInputBinding.tarif12.setVisibility(View.VISIBLE);
+                    activityInputBinding.dayamul.setVisibility(View.GONE);
+                    activityInputBinding.dayan.setVisibility(View.VISIBLE);
                 }
+
+//                if(adapter.getItem(position).equals("Pasang Baru")){
+//                    activityInputBinding.tarifM.setVisibility(View.VISIBLE);
+//                    activityInputBinding.tarif12.setVisibility(View.GONE);
+//                    activityInputBinding.dayamul.setVisibility(View.VISIBLE);
+//                    activityInputBinding.dayan.setVisibility(View.GONE);
+//                }else{
+//
+//                }
             }
 
             @Override
@@ -177,6 +191,7 @@ public class Input extends AppCompatActivity {
         });
 
         activityInputBinding.tarif12.setAdapter(adapter2);
+        activityInputBinding.tarif12.setSelection(adapter2.getPosition(dene.getTarif()));
         activityInputBinding.tarif12.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -192,6 +207,7 @@ public class Input extends AppCompatActivity {
         final ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, Konstanta.dayas);
         activityInputBinding.daya12.setAdapter(adapter3);
+        activityInputBinding.daya12.setSelection(adapter3.getPosition(dene.getDayaBeli()));
         activityInputBinding.daya12.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -231,12 +247,14 @@ public class Input extends AppCompatActivity {
             kombi = keterangan;
         }
         String tarif;
+        String daya;
         if(keterangan.equals("Multiguna")){
             tarif = activityInputBinding.tarifM.getSelectedItem().toString();
+            daya = activityInputBinding.daya25m.getText().toString();
         }else{
             tarif = activityInputBinding.tarif12.getSelectedItem().toString();
+            daya = activityInputBinding.daya12.getSelectedItem().toString();
         }
-        String daya = activityInputBinding.daya12.getSelectedItem().toString();
         String tanggal = temporary.getText().toString();
         String path = activityInputBinding.pathGambar.getText().toString();
         String lokasi = activityInputBinding.lokasi12.getText().toString();

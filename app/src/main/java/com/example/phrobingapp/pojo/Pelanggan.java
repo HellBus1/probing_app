@@ -49,6 +49,21 @@ public class Pelanggan {
     @SerializedName("tahun")
     @Expose
     private Integer tahun;
+    @SerializedName("user_id")
+    @Expose
+    private Integer userId;
+    @SerializedName("growth_rate")
+    @Expose
+    private String growthRate;
+    @SerializedName("jam_pakai")
+    @Expose
+    private Integer jamPakai;
+    @SerializedName("id_pln_unit")
+    @Expose
+    private String idPlnUnit;
+    @SerializedName("ulp_unit")
+    @Expose
+    private String ulpUnit;
 
     public Integer getPelangganId() {
         return pelangganId;
@@ -168,5 +183,45 @@ public class Pelanggan {
 
     public void setTahun(Integer tahun) {
         this.tahun = tahun;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getGrowthRate() {
+        return growthRate;
+    }
+
+    public void setGrowthRate(String growthRate) {
+        this.growthRate = growthRate;
+    }
+
+    public Integer getJamPakai() {
+        return jamPakai;
+    }
+
+    public void setJamPakai(Integer jamPakai) {
+        this.jamPakai = jamPakai;
+    }
+
+    public String getIdPlnUnit() {
+        return idPlnUnit;
+    }
+
+    public void setIdPlnUnit(String idPlnUnit) {
+        this.idPlnUnit = idPlnUnit;
+    }
+
+    public String getUlpUnit() {
+        return ulpUnit;
+    }
+
+    public void setUlpUnit(String ulpUnit) {
+        this.ulpUnit = ulpUnit;
     }
 }

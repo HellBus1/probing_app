@@ -109,6 +109,10 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
                 android.R.layout.simple_spinner_item, Konstanta.dayas);
         final ArrayAdapter<String> adapterIndustri = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, Konstanta.tipeIndustri);
+        final ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Konstanta.keterangan_new);
+        final ArrayAdapter<String> adapterMulti = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Konstanta.multigunas);
 
         List<String> unitss = new ArrayList<>();
         for(Unit a : Konstanta.units){
@@ -135,6 +139,31 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        binding.tarif112.setAdapter(adapterMulti);
+
+        binding.listKeterangan2.setAdapter(adapter4);
+        binding.listKeterangan2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(adapter4.getItem(position).equals("Pasang Baru")){
+                    binding.kumpulanDaya1.setVisibility(View.VISIBLE);
+                    binding.kumpulanDaya2.setVisibility(View.GONE);
+                    binding.tarifBaru.setVisibility(View.VISIBLE);
+                    binding.tarifMulti.setVisibility(View.GONE);
+                }else{
+                    binding.kumpulanDaya1.setVisibility(View.GONE);
+                    binding.kumpulanDaya2.setVisibility(View.VISIBLE);
+                    binding.tarifBaru.setVisibility(View.GONE);
+                    binding.tarifMulti.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -196,9 +225,16 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
                 String lokasis = binding.lokasi1.getText().toString();
                 String jenis_usaha = binding.jenisUsaha.getText().toString();
                 String industri = binding.industri1.getSelectedItem().toString();
-                String keterangans = binding.keterangan1.getText().toString();
-                String tarifs = binding.tarif1.getSelectedItem().toString();
-                String dayas = binding.daya1.getSelectedItem().toString();
+                String keterangans = binding.listKeterangan2.getSelectedItem().toString();
+                String tarifs = "";
+                String dayas = "";
+                if(keterangans.equals("Pasang Baru")) {
+                    dayas = binding.daya1.getSelectedItem().toString();
+                    tarifs = binding.tarif1.getSelectedItem().toString();
+                }else{
+                    dayas = binding.daya25.getText().toString();
+                    tarifs = binding.tarif112.getSelectedItem().toString();
+                }
                 String tanggalan = new java.sql.Date(getTanggal(temporary.getText().toString()).getTime()).toString();
                 String keterangant = binding.keterangant1.getText().toString();
 

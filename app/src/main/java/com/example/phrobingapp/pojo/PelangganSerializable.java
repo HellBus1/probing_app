@@ -21,8 +21,11 @@ public class PelangganSerializable implements Serializable {
     private String dayaBeli;
     private Integer bulan;
     private Integer tahun;
+    private String unitulp;
 
-    public PelangganSerializable(Integer pelangganId, Integer rekapId, String idPlnPelanggan, String namaUsaha, String alamat, String jenisUsaha, String telefon, String fax, String contactPerson, String email, String tipeIndustri, String tarif, String dayaBeli, Integer bulan, Integer tahun) {
+    public PelangganSerializable(Integer pelangganId, Integer rekapId, String idPlnPelanggan, String namaUsaha, String alamat,
+                                 String jenisUsaha, String telefon, String fax, String contactPerson, String email, String tipeIndustri,
+                                 String tarif, String dayaBeli, Integer bulan, Integer tahun, String unitulp) {
         this.pelangganId = pelangganId;
         this.rekapId = rekapId;
         this.idPlnPelanggan = idPlnPelanggan;
@@ -38,6 +41,7 @@ public class PelangganSerializable implements Serializable {
         this.dayaBeli = dayaBeli;
         this.bulan = bulan;
         this.tahun = tahun;
+        this.unitulp = unitulp;
     }
 
     public Integer getPelangganId() {
@@ -158,5 +162,13 @@ public class PelangganSerializable implements Serializable {
 
     public void setTahun(Integer tahun) {
         this.tahun = tahun;
+    }
+
+    public String getUnitulp() {
+        return unitulp;
+    }
+
+    public void setUnitulp(String unitulp) {
+        this.unitulp = unitulp;
     }
 }

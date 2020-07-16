@@ -86,7 +86,8 @@ public class RvAdapter extends
                                 a.getTarif(),
                                 a.getDayaBeli(),
                                 a.getBulan(),
-                                a.getTahun()
+                                a.getTahun(),
+                                a.getUlpUnit()
                         );
                         i.putExtra(Input.KEY_PINDAH,  temp);
                         context.startActivity(i);
