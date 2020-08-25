@@ -16,7 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.phrobingapp.BuildConfig;
-import com.example.phrobingapp.menu.Input2;
+import com.example.phrobingapp.menu.Baru;
 
 import java.io.File;
 import java.util.Date;
@@ -89,7 +89,7 @@ public class CameraUtils {
     public static File getOutputMediaFile(int type) {
 
         // External sdcard location
-        File mediaStorageDir = new File(Environment.getExternalStorageDirectory() + Input2.ROOT_IMAGE_DIRECTORY);
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory() + Baru.ROOT_IMAGE_DIRECTORY);
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
@@ -103,7 +103,7 @@ public class CameraUtils {
             timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         }
         File mediaFile;
-        if (type == Input2.CAMERA) {
+        if (type == Baru.CAMERA) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + "IMG_" + timeStamp + ".jpg");
         } else {

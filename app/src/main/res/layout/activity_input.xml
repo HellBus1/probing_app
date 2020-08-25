@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".menu.Input">
+        tools:context=".menu.Existing">
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
@@ -390,6 +390,50 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
+                    android:id="@+id/container_custom_ex">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/green2"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingRight="5dp"
+                        android:elevation="0dp">
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="15sp"
+                            android:paddingLeft="5dp"
+                            android:paddingStart="5dp"
+                            android:paddingRight="5dp"
+                            android:background="@drawable/border"
+                            android:hint="Daya"
+                            android:textStyle="bold"
+                            android:enabled="true"
+                            android:inputType="textEmailAddress"
+                            android:id="@+id/custom_daya_ex"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"/>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
                     android:id="@+id/dayamul"
                     android:visibility="gone">
 
@@ -634,6 +678,11 @@
                     android:layout_gravity="center_horizontal"
                     android:visibility="gone"
                     android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/errornya"/>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"

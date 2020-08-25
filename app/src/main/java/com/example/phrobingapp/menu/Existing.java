@@ -1,17 +1,14 @@
-
 package com.example.phrobingapp.menu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -20,14 +17,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -37,18 +33,14 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.phrobingapp.BuildConfig;
 import com.example.phrobingapp.Konstanta;
-import com.example.phrobingapp.LoginActivity;
 import com.example.phrobingapp.MainActivity;
 import com.example.phrobingapp.R;
 import com.example.phrobingapp.connection.ApiInterface;
 import com.example.phrobingapp.connection.RetrofitBuilder;
-import com.example.phrobingapp.databinding.ActivityInput2Binding;
-import com.example.phrobingapp.login_serv.Login_pojo;
-import com.example.phrobingapp.login_serv.Penyulang;
-import com.example.phrobingapp.login_serv.Unit;
+import com.example.phrobingapp.databinding.ActivityInputBinding;
 import com.example.phrobingapp.map.OsmMap;
+import com.example.phrobingapp.pojo.PelangganSerializable;
 import com.example.phrobingapp.pojo.SubmitData;
 import com.example.phrobingapp.tools.CameraUtils;
 import com.karumi.dexter.Dexter;
@@ -65,7 +57,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -81,84 +72,144 @@ import retrofit2.Response;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.MONTH;
 
-public class Input2 extends AppCompatActivity implements View.OnClickListener {
-    private ActivityInput2Binding binding;
+public class Existing extends AppCompatActivity {
+    public static String KEY_PINDAH = "cobas";
+    ActivityInputBinding activityInputBinding;
+    private static TextView temporary;
     public int year = -1;
     public int month = -1;
     public int dayOfMonth = -1;
-    public static int GALLERY = 1, CAMERA = 2;
-    public static final String ROOT_IMAGE_DIRECTORY = "/foto_bukti";
-    public static TextView temporary;
-    private static String imageStoragePath;
-    Bitmap saved;
+    private int GALLERY = 1, CAMERA = 2;
+    private Bitmap saved;
+    private static final String ROOT_IMAGE_DIRECTORY = "/foto_bukti";
     public static int LOCATION_CODE = 10;
+    private static String imageStoragePath;
+    PelangganSerializable dene;
+    File myCustomFile;
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_input2);
-        init();
+        activityInputBinding = DataBindingUtil.setContentView(this, R.layout.activity_input);
+        Intent i = getIntent();
+        dene = (PelangganSerializable) i.getSerializableExtra(KEY_PINDAH);
+        activityInputBinding.idPelanggan.setText(String.valueOf(dene.getPelangganId()));
+        activityInputBinding.namaPelanggan.setText(dene.getNamaUsaha());
+        activityInputBinding.alamatPelanggan.setText(dene.getAlamat());
+        activityInputBinding.unitu.setText(dene.getUnitulp());
+
+        temporary = findViewById(R.id.tanggal);
+        adjustEditText();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private void init(){
-        final ArrayAdapter<String> adapterTarif = new ArrayAdapter<String>(this,
+    private void adjustEditText(){
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Konstanta.keterangan);
+        final ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Konstanta.premium);
+        final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, Konstanta.tarifs);
-        final ArrayAdapter<String> adapterDaya = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, Konstanta.dayas);
-        final ArrayAdapter<String> adapterIndustri = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, Konstanta.tipeIndustri);
         final ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, Konstanta.keterangan_new);
-        final ArrayAdapter<String> adapterMulti = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, Konstanta.multigunas);
 
-        List<String> unitss = new ArrayList<>();
-        for(Unit a : Konstanta.units){
-            unitss.add(a.getUlp());
-        }
-        final ArrayAdapter<String> adapterUnits = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, unitss);
-
-        List<String> penyulangs = new ArrayList<>();
-        for(Penyulang a : Konstanta.penyulangs){
-            penyulangs.add(a.getNamaPenyulang());
-        }
-        final ArrayAdapter<String> adapterPenyulang = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, penyulangs);
-
-        binding.tarif1.setAdapter(adapterTarif);
-        binding.tarif1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        activityInputBinding.tarifM.setAdapter(adapter4);
+        activityInputBinding.tarifM.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                // memunculkan toast + value Spinner yang dipilih (diambil dari adapter)
-//                Toast.makeText(Input2.this, "Selected "+ adapterTarif.getItem(i),
-//                        Toast.LENGTH_SHORT).show();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
 
-        binding.tarif112.setAdapter(adapterMulti);
-
-        binding.listKeterangan2.setAdapter(adapter4);
-        binding.listKeterangan2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        activityInputBinding.listKeterangan.setAdapter(adapter);
+        activityInputBinding.listKeterangan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(adapter4.getItem(position).equals("Pasang Baru")){
-                    binding.kumpulanDaya1.setVisibility(View.VISIBLE);
-                    binding.kumpulanDaya2.setVisibility(View.GONE);
-                    binding.tarifBaru.setVisibility(View.VISIBLE);
-                    binding.tarifMulti.setVisibility(View.GONE);
+//                if(adapter.getItem(position).equals("Premium")){
+//                    activityInputBinding.dropPremium.setVisibility(View.VISIBLE);
+//                }else{
+//                    activityInputBinding.dropPremium.setVisibility(View.GONE);
+//                }
+//
+//                if(adapter.getItem(position).equals("Lain - Lain")){
+//                    activityInputBinding.lainLain.setVisibility(View.VISIBLE);
+//                }else{
+//                    activityInputBinding.lainLain.setVisibility(View.GONE);
+//                }
+
+                if(adapter.getItem(position).equals("Multiguna")){
+                    activityInputBinding.tarifM.setVisibility(View.VISIBLE);
+                    activityInputBinding.tarif12.setVisibility(View.GONE);
+                    activityInputBinding.dayamul.setVisibility(View.VISIBLE);
+                    activityInputBinding.dayan.setVisibility(View.GONE);
                 }else{
-                    binding.kumpulanDaya1.setVisibility(View.GONE);
-                    binding.kumpulanDaya2.setVisibility(View.VISIBLE);
-                    binding.tarifBaru.setVisibility(View.GONE);
-                    binding.tarifMulti.setVisibility(View.VISIBLE);
+                    activityInputBinding.tarifM.setVisibility(View.GONE);
+                    activityInputBinding.tarif12.setVisibility(View.VISIBLE);
+                    activityInputBinding.dayamul.setVisibility(View.GONE);
+                    activityInputBinding.dayan.setVisibility(View.VISIBLE);
+                }
+
+//                if(adapter.getItem(position).equals("Pasang Baru")){
+//                    activityInputBinding.tarifM.setVisibility(View.VISIBLE);
+//                    activityInputBinding.tarif12.setVisibility(View.GONE);
+//                    activityInputBinding.dayamul.setVisibility(View.VISIBLE);
+//                    activityInputBinding.dayan.setVisibility(View.GONE);
+//                }else{
+//
+//                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        activityInputBinding.listPremium.setAdapter(adapter1);
+        activityInputBinding.listPremium.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(Input.this, adapter1.getItem(position), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        activityInputBinding.tarif12.setAdapter(adapter2);
+        activityInputBinding.tarif12.setSelection(adapter2.getPosition(dene.getTarif()));
+        activityInputBinding.tarif12.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        final ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Konstanta.dayas);
+        activityInputBinding.daya12.setAdapter(adapter3);
+        activityInputBinding.daya12.setSelection(adapter3.getPosition(dene.getDayaBeli()));
+        activityInputBinding.daya12.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(adapter3.getItem(position).toString().equals("Custom")){
+                    activityInputBinding.containerCustomEx.setVisibility(View.VISIBLE);
+                }else{
+                    activityInputBinding.containerCustomEx.setVisibility(View.GONE);
                 }
             }
 
@@ -168,156 +219,120 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
             }
         });
 
-        binding.daya1.setAdapter(adapterDaya);
-        binding.unit1.setAdapter(adapterUnits);
-        binding.penyulang1.setAdapter(adapterPenyulang);
-        binding.industri1.setAdapter(adapterIndustri);
-
-        temporary = findViewById(R.id.tanggal1);
         temporary.setOnFocusChangeListener((v, hasFocus) -> showDatePickerDialog(v));
         temporary.setOnClickListener(this::showDatePickerDialog);
-        binding.sho2Gambar1.setOnClickListener((v) -> {
+        activityInputBinding.sho2Gambar.setOnClickListener((v) -> {
             requestMultiplePermissions();
         });
-        binding.shoLokasi.setOnClickListener(this);
-        binding.inputDatas.setOnClickListener(this);
+        activityInputBinding.shoLokasi12.setOnClickListener((v) ->{
+            requestLocation();
+        });
+        activityInputBinding.submitData.setOnClickListener((v) -> {
+            sendToServer();
+        });
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        outState.putString(ROOT_IMAGE_DIRECTORY, imageStoragePath);
-    }
-
-    @Override
-    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onRestoreInstanceState(savedInstanceState, persistentState);
-        imageStoragePath = savedInstanceState.getString(ROOT_IMAGE_DIRECTORY);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.inputDatas:{
-                binding.loadingSatu.setVisibility(View.VISIBLE);
-                int kode_unit = 0;
-                int kode_penyulang = 0;
-                for(Unit units : Konstanta.units){
-                    if(units.getUlp().equals(binding.unit1.getSelectedItem().toString())){
-                        kode_unit = units.getId();
-                        break;
-                    }
+    private void sendToServer(){
+        if(checkAllCannotEmpty()){
+            String idPelanggan = activityInputBinding.idPelanggan.getText().toString();
+            String namaUsaha = activityInputBinding.namaPelanggan.getText().toString();
+            String alamatUsaha = activityInputBinding.alamatPelanggan.getText().toString();
+            String keterangan = activityInputBinding.listKeterangan.getSelectedItem().toString();
+            String kombi = "";
+            if(keterangan.equals("Premium")){
+                kombi = ("Premium," + activityInputBinding.listPremium.getSelectedItem().toString());
+            }else if(keterangan.equals("Lain - Lain")){
+                kombi = activityInputBinding.ketLain.getText().toString();
+            }else{
+                kombi = keterangan;
+            }
+            String tarif;
+            String daya;
+            if(keterangan.equals("Multiguna")){
+                tarif = activityInputBinding.tarifM.getSelectedItem().toString();
+                daya = activityInputBinding.daya25m.getText().toString();
+            }else{
+                tarif = activityInputBinding.tarif12.getSelectedItem().toString();
+                daya = activityInputBinding.daya12.getSelectedItem().toString();
+                if(daya.equals("Custom")){
+                    daya = activityInputBinding.customDayaEx.getText().toString();
                 }
-                for(Penyulang penyulang : Konstanta.penyulangs){
-                    if(penyulang.getNamaPenyulang().equals(binding.penyulang1.getSelectedItem().toString())){
-                        kode_penyulang = penyulang.getId();
-                        break;
-                    }
-                }
+            }
+            String tanggal = temporary.getText().toString();
+            String path = activityInputBinding.pathGambar.getText().toString();
+            String lokasi = activityInputBinding.lokasi12.getText().toString();
+            String keteranganTambahan = activityInputBinding.keterangant1.getText().toString();
 
-                File file = new File(Objects.requireNonNull(Uri.parse(binding.pathGambar2.getText().toString()).getPath()));
-                String namaPelanggan = binding.namaPelanggan1.getText().toString();
-                String alamatPelanggan = binding.alamatPelanggan1.getText().toString();
-                String telepons = binding.telp.getText().toString();
-                String contact = binding.cp.getText().toString();
-                String faximili = binding.fax.getText().toString();
-                String emails = binding.email.getText().toString();
-                String lokasis = binding.lokasi1.getText().toString();
-                String jenis_usaha = binding.jenisUsaha.getText().toString();
-                String industri = binding.industri1.getSelectedItem().toString();
-                String keterangans = binding.listKeterangan2.getSelectedItem().toString();
-                String tarifs = "";
-                String dayas = "";
-                if(keterangans.equals("Pasang Baru")) {
-                    dayas = binding.daya1.getSelectedItem().toString();
-                    tarifs = binding.tarif1.getSelectedItem().toString();
-                }else{
-                    dayas = binding.daya25.getText().toString();
-                    tarifs = binding.tarif112.getSelectedItem().toString();
-                }
-                String tanggalan = new java.sql.Date(getTanggal(temporary.getText().toString()).getTime()).toString();
-                String keterangant = binding.keterangant1.getText().toString();
+            File file = new File(Objects.requireNonNull(Uri.parse(path).getPath()));
+//            Bitmap bitmap = BitmapFactory.decodeFile(Objects.requireNonNull(Uri.parse(path).getPath()));
+//            new FilefromBitmap(bitmap).execute();
+//            File file = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+            RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
 
-
-                RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
-                MultipartBody.Part foto = MultipartBody.Part.createFormData("foto", file.getName(), mFile);
-
-                RequestBody latlong = RequestBody.create(MediaType.parse("text/plain"), lokasis);
-                RequestBody nama_usaha = RequestBody.create(MediaType.parse("text/plain"), namaPelanggan);
-                RequestBody alamat = RequestBody.create(MediaType.parse("text/plain"), alamatPelanggan);
-                RequestBody nomor_telp = RequestBody.create(MediaType.parse("text/plain"), telepons);
-                RequestBody cp = RequestBody.create(MediaType.parse("text/plain"), contact);
-                RequestBody fax = RequestBody.create(MediaType.parse("text/plain"), faximili);
-                RequestBody email = RequestBody.create(MediaType.parse("text/plain"), emails);
-                RequestBody id = RequestBody.create(MediaType.parse("text/plain"), "1");
-                RequestBody flag = RequestBody.create(MediaType.parse("text/plain"), "1");
-
-                RequestBody unit = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(kode_unit));
-                RequestBody penyulang = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(kode_penyulang));
-                RequestBody jenisUsaha = RequestBody.create(MediaType.parse("text/plain"), jenis_usaha);
-                RequestBody tipeIndustri = RequestBody.create(MediaType.parse("text/plain"), industri);
-                RequestBody keterangan1 = RequestBody.create(MediaType.parse("text/plain"), keterangans);
-                RequestBody tarif1 = RequestBody.create(MediaType.parse("text/plain"), tarifs);
-                RequestBody daya1 = RequestBody.create(MediaType.parse("text/plain"), dayas);
-                RequestBody tanggalan1 = RequestBody.create(MediaType.parse("text/plain"), tanggalan);
-                RequestBody keterangant1 = RequestBody.create(MediaType.parse("text/plain"), keterangant);
-
-                ApiInterface apiInterface = RetrofitBuilder.getClient().create(ApiInterface.class);
-                Call<SubmitData> caller = apiInterface.post_data(
-                        unit,
-                        foto,
-                        penyulang,
-                        nama_usaha,
-                        alamat,
-                        nomor_telp,
-                        cp,
-                        fax,
-                        email,
-                        jenisUsaha,
-                        tipeIndustri,
-                        keterangan1,
-                        tarif1,
-                        daya1,
-                        tanggalan1,
-                        latlong,
-                        keterangant1
-                );
-                caller.enqueue(new Callback<SubmitData>() {
-                    @Override
-                    public void onResponse(Call<SubmitData> call, Response<SubmitData> response) {
-                        if (response.isSuccessful()){
-                            try{
-                                SubmitData subs = response.body();
-                                if(subs.getSuccess() && subs.getPesan().equals("berhasil")){
-                                    binding.loadingSatu.setVisibility(View.GONE);
-                                    startActivity(new Intent(Input2.this, MainActivity.class));
-                                    finish();
-                                }else{
-                                    binding.loadingSatu.setVisibility(View.GONE);
-                                    Toast.makeText(Input2.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
-                                }
-                            }catch (Exception e){
-                                e.printStackTrace();
+            MultipartBody.Part foto = MultipartBody.Part.createFormData("foto", file.getName(), mFile);;
+            RequestBody nama_usaha = RequestBody.create(MediaType.parse("text/plain"), namaUsaha);
+            RequestBody alamat = RequestBody.create(MediaType.parse("text/plain"), alamatUsaha);
+            RequestBody nomor_telp = RequestBody.create(MediaType.parse("text/plain"), dene.getTelefon());
+            RequestBody cp = RequestBody.create(MediaType.parse("text/plain"), dene.getContactPerson());
+            RequestBody fax = RequestBody.create(MediaType.parse("text/plain"), dene.getFax());
+            RequestBody email = RequestBody.create(MediaType.parse("text/plain"), dene.getEmail());
+            RequestBody latlong = RequestBody.create(MediaType.parse("text/plain"), lokasi);
+            RequestBody keteterangantam = RequestBody.create(MediaType.parse("text/plain"), keteranganTambahan);
+            RequestBody tanggalan = RequestBody.create(MediaType.parse("text/plain"), new java.sql.Date(getTanggal(tanggal).getTime()).toString());
+            RequestBody keterangans = RequestBody.create(MediaType.parse("text/plain"), kombi);
+            RequestBody tarrifs = RequestBody.create(MediaType.parse("text/plain"), tarif);
+            RequestBody dayas = RequestBody.create(MediaType.parse("text/plain"), daya);
+            RequestBody idPel = RequestBody.create(MediaType.parse("text/plain"), idPelanggan);
+            RequestBody rekapId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(dene.getRekapId()));
+            activityInputBinding.loadingKirim.setVisibility(View.VISIBLE);
+            ApiInterface apiInterface = RetrofitBuilder.getClient().create(ApiInterface.class);
+            Call<SubmitData> caller = apiInterface.update_data(
+                    foto, idPel, tarrifs, dayas, nama_usaha, alamat, tanggalan, keterangans, latlong, keteterangantam, rekapId
+            );
+            caller.enqueue(new Callback<SubmitData>() {
+                @Override
+                public void onResponse(Call<SubmitData> call, Response<SubmitData> response) {
+                    if (response.isSuccessful()){
+                        try{
+                            SubmitData subs = response.body();
+                            if(subs.getSuccess() && subs.getPesan().equals("berhasil")){
+                                activityInputBinding.loadingKirim.setVisibility(View.GONE);
+                                startActivity(new Intent(Existing.this, MainActivity.class));
+                                finish();
+//                            sendimage(path, namaUsaha, alamatUsaha,
+//                                    dene.getTelefon(), dene.getContactPerson(), dene.getFax(), dene.getEmail(),
+//                                    lokasi, idPelanggan, "2");
+                            }else{
+                                activityInputBinding.loadingKirim.setVisibility(View.GONE);
+                                Toast.makeText(Existing.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
                             }
-                        }else{
-                            binding.loadingSatu.setVisibility(View.GONE);
-                            Toast.makeText(Input2.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){
+                            e.printStackTrace();
                         }
+                    }else{
+                        activityInputBinding.loadingKirim.setVisibility(View.GONE);
+                        activityInputBinding.errornya.setText(response.message());
+                        Toast.makeText(Existing.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
                     }
+                }
 
-                    @Override
-                    public void onFailure(Call<SubmitData> call, Throwable t) {
-                        binding.loadingSatu.setVisibility(View.GONE);
-                        Log.e("gagal ", t.getMessage());
-                        Toast.makeText(Input2.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }break;
-            case R.id.sho_lokasi:{
-                requestLocation();
-            }break;
-            default:
+                @Override
+                public void onFailure(Call<SubmitData> call, Throwable t) {
+                    activityInputBinding.loadingKirim.setVisibility(View.GONE);
+//                    Log.e("Kesalahan ", t.getMessage());
+                    activityInputBinding.errornya.setText(t.getMessage().toString());
+                    Toast.makeText(Existing.this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
+    }
+
+    boolean checkAllCannotEmpty(){
+        if(!activityInputBinding.pathGambar.getText().toString().isEmpty() &&
+                !activityInputBinding.tanggal.getText().toString().isEmpty()){
+            return true;
+        }
+        return false;
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -388,7 +403,7 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
 
     public void showDatePickerDialog(View view) {
         hideKeyboard();
-        Input2.DateChooser amp = new Input2.DateChooser(Input2.this);
+        Existing.DateChooser amp = new Existing.DateChooser(Existing.this);
         amp.show(getSupportFragmentManager(), "datePick");
         hideKeyboard();
     }
@@ -417,7 +432,7 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
                         String path = saveImage(bitmap);
                         saved = bitmap;
                         Toast.makeText(this, "Gambar Tersimpan", Toast.LENGTH_SHORT).show();
-                        binding.pathGambar2.setText(path);
+                        activityInputBinding.pathGambar.setText(path);
                     }catch (IOException e){
                         e.printStackTrace();
                         Toast.makeText(this, "Gagal!", Toast.LENGTH_SHORT).show();
@@ -430,7 +445,7 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
                 previewCapturedImage();
             }else if(requestCode == LOCATION_CODE && resultCode == RESULT_OK){
                 assert data != null;
-                binding.lokasi1.setText(data.getStringExtra("result"));
+                activityInputBinding.lokasi12.setText(data.getStringExtra("result"));
             }
         }
     }
@@ -438,7 +453,7 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
     private void previewCapturedImage() {
         try {
             // hide video preview
-            binding.pathGambar2.setText(imageStoragePath);
+            activityInputBinding.pathGambar.setText(imageStoragePath);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -498,7 +513,7 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
                 .withErrorListener(new PermissionRequestErrorListener() {
                     @Override
                     public void onError(DexterError error) {
-                        Toast.makeText(Input2.this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Existing.this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
                     }
                 }).onSameThread().check();
     }
@@ -513,8 +528,8 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
-                            Intent i = new Intent(Input2.this, OsmMap.class);
-                            OsmMap.a = true;
+                            Intent i = new Intent(Existing.this, OsmMap.class);
+                            OsmMap.a = false;
                             startActivityForResult(i, LOCATION_CODE);
 //                            Toast.makeText(getApplicationContext(), "All permissions are granted!", Toast.LENGTH_SHORT).show();
                         }
@@ -534,13 +549,13 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
                 .withErrorListener(new PermissionRequestErrorListener() {
                     @Override
                     public void onError(DexterError error) {
-                        Toast.makeText(Input2.this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Existing.this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
                     }
                 }).onSameThread().check();
     }
 
     private void showSettingsDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Input2.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Existing.this);
         builder.setTitle("Need Permissions");
         builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
         builder.setPositiveButton("GOTO SETTINGS", new DialogInterface.OnClickListener() {
@@ -570,9 +585,9 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
 
     public static class DateChooser extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-        Input2 loginActivity;
+        Existing loginActivity;
 
-        DateChooser(Input2 activity) {
+        DateChooser(Existing activity) {
             this.loginActivity = activity;
         }
 
@@ -585,14 +600,15 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
             int dayOfMonth = calendar.get(DAY_OF_MONTH);
 
             //Initialize a new DatePickerDialog
-            return new DatePickerDialog(Objects.requireNonNull(getActivity()), this, year, month, dayOfMonth);
+            DatePickerDialog date = new DatePickerDialog(Objects.requireNonNull(getActivity()), this, year, month, dayOfMonth);
+            return date;
         }
 
         @SuppressLint("SetTextI18n")
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
             if ((month + 1) < 10) {
-                temporary.setText(year + "-" +  "0" + (month + 1) + "-" + dayOfMonth);
+                temporary.setText(year + "-" + "0" + (month + 1) + "-" + dayOfMonth);
             } else {
                 temporary.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
             }
@@ -612,6 +628,47 @@ public class Input2 extends AppCompatActivity implements View.OnClickListener {
         public void onCancel(@NonNull DialogInterface dialog) {
             super.onCancel(dialog);
             loginActivity.hideKeyboard();
+        }
+    }
+
+    public class FilefromBitmap extends AsyncTask<Void, Integer, String>{
+        private Bitmap bitmap;
+        private String path_external = Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg";
+
+        public FilefromBitmap(Bitmap bitmap){
+            this.bitmap = bitmap;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // before executing doInBackground
+            // update your UI
+            // exp; make progressbar visible
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
+            myCustomFile = new File(path_external);
+            try {
+                FileOutputStream fo = new FileOutputStream(myCustomFile);
+                fo.write(bytes.toByteArray());
+                fo.flush();
+                fo.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            // back to main thread after finishing doInBackground
+            // update your UI or take action after
+            // exp; make progressbar gone
         }
     }
 }

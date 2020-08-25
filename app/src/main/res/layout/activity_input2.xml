@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".menu.Input2">
+        tools:context=".menu.Baru">
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
@@ -88,76 +88,6 @@
                             android:id="@+id/unit1"/>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:text="@string/penyulang"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/green2"/>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="15sp"
-                        android:paddingLeft="5dp"
-                        android:paddingStart="5dp"
-                        android:paddingRight="5dp"
-                        app:cardCornerRadius="5dp"
-                        android:elevation="0dp">
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:id="@+id/penyulang1"/>
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:layout_marginLeft="10dp"-->
-<!--                    android:layout_marginRight="10dp"-->
-<!--                    android:layout_marginTop="10dp">-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="@string/id_pelanggan"-->
-<!--                        android:layout_weight="2"-->
-<!--                        android:textSize="15sp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:textColor="@color/green2"/>-->
-
-<!--                    <androidx.cardview.widget.CardView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:textSize="15sp"-->
-<!--                        android:paddingLeft="5dp"-->
-<!--                        android:paddingStart="5dp"-->
-<!--                        android:paddingRight="5dp"-->
-<!--                        app:cardCornerRadius="5dp"-->
-<!--                        android:elevation="0dp">-->
-<!--                        <Spinner-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:textStyle="bold"-->
-<!--                            android:id="@+id/id1"/>-->
-<!--                    </androidx.cardview.widget.CardView>-->
-<!--                </LinearLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -377,75 +307,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/jenis_usaha"
-                        android:layout_weight="2"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/green2"/>
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="15sp"
-                        android:paddingLeft="5dp"
-                        android:paddingStart="5dp"
-                        android:paddingRight="5dp"
-                        android:background="@drawable/border"
-                        android:hint="@string/jenis_usaha"
-                        android:textStyle="bold"
-                        android:enabled="true"
-                        android:id="@+id/jenis_usaha"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tipe_industri"
-                        android:layout_weight="2"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/green2"/>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="15sp"
-                        android:paddingLeft="5dp"
-                        android:paddingStart="5dp"
-                        android:paddingRight="5dp"
-                        app:cardCornerRadius="5dp"
-                        android:elevation="0dp">
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:id="@+id/industri1"/>
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:text="@string/keterangan"
                         android:layout_weight="2"
                         android:textSize="15sp"
@@ -574,6 +435,50 @@
                             android:textSize="15sp"
                             android:textStyle="bold"
                             android:id="@+id/daya1"/>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/container_custom">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/green2"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingRight="5dp"
+                        android:elevation="0dp">
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="15sp"
+                            android:paddingLeft="5dp"
+                            android:paddingStart="5dp"
+                            android:paddingRight="5dp"
+                            android:background="@drawable/border"
+                            android:hint="Daya"
+                            android:textStyle="bold"
+                            android:enabled="true"
+                            android:inputType="textEmailAddress"
+                            android:id="@+id/custom_daya"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"/>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 

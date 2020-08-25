@@ -1,20 +1,12 @@
 package com.example.phrobingapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.phrobingapp.adapter.PremiumAdapter;
@@ -24,7 +16,7 @@ import com.example.phrobingapp.connection.ApiInterface;
 import com.example.phrobingapp.connection.RetrofitBuilder;
 import com.example.phrobingapp.databinding.ActivityMainBinding;
 import com.example.phrobingapp.fragments.Existing;
-import com.example.phrobingapp.menu.Input2;
+import com.example.phrobingapp.menu.Baru;
 import com.example.phrobingapp.pojo.iklan.GetListIklan;
 import com.example.phrobingapp.pojo.iklan.Iklan;
 
@@ -112,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tombol_probing:{
-                startActivity(new Intent(MainActivity.this, Input2.class));
+                startActivity(new Intent(MainActivity.this, Baru.class));
             }break;
             case R.id.tombol_status_probing:{
                 startActivity(new Intent(MainActivity.this, Existing.class));

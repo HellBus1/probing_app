@@ -74,7 +74,7 @@ public class Konstanta {
             "LP1",
             "LP2",
             "LP3",
-            "L"
+            "L",
 //            "LR1",
 //            "LR1M",
 //            "LR2",
@@ -310,7 +310,8 @@ public class Konstanta {
         "145.000.000",
         "165.000.000",
         "180.000.000",
-        "200.000.000"
+        "200.000.000",
+        "Custom"
     };
 
     public static String [] keterangan = {"Pasang Baru",

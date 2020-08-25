@@ -8,8 +8,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitBuilder {
-    private static final String VERY_BASE_URL = "https://prb-ckrg-monitor.my.id/";
-//    private static final String VERY_BASE_URL = "http://807f6d552c98.ngrok.io/";
+//    private static final String VERY_BASE_URL = "https://prb-ckrg-monitor.my.id/";
+    private static final String VERY_BASE_URL = "http://65bfa7eb9beb.ngrok.io/";
     private static final String BASE_URL = VERY_BASE_URL+"api/";
 
     public static Retrofit getClient(){

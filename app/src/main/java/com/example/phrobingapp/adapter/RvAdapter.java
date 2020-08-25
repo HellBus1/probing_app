@@ -6,19 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phrobingapp.R;
-import com.example.phrobingapp.databinding.CardItemBinding;
-import com.example.phrobingapp.menu.Input;
+import com.example.phrobingapp.menu.Existing;
 import com.example.phrobingapp.pojo.Pelanggan;
 import com.example.phrobingapp.pojo.PelangganSerializable;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RvAdapter extends
@@ -70,7 +66,7 @@ public class RvAdapter extends
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION){
                         Pelanggan a = list_pelanggan.get(position);
-                        Intent i = new Intent(context, Input.class);
+                        Intent i = new Intent(context, Existing.class);
                         PelangganSerializable temp = new PelangganSerializable(
                                 a.getPelangganId(),
                                 a.getRekapId(),
@@ -89,7 +85,7 @@ public class RvAdapter extends
                                 a.getTahun(),
                                 a.getUlpUnit()
                         );
-                        i.putExtra(Input.KEY_PINDAH,  temp);
+                        i.putExtra(Existing.KEY_PINDAH,  temp);
                         context.startActivity(i);
                     }
                 }

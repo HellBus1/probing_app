@@ -3,7 +3,6 @@ package com.example.phrobingapp.map;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Activity;
@@ -21,11 +20,9 @@ import android.widget.Toast;
 import com.example.phrobingapp.BuildConfig;
 import com.example.phrobingapp.R;
 import com.example.phrobingapp.databinding.ActivityOsmMapBinding;
-import com.example.phrobingapp.menu.Input2;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -37,11 +34,7 @@ import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import java.util.concurrent.ExecutionException;
-
-import static org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK;
 import static org.osmdroid.views.CustomZoomButtonsController.Visibility.ALWAYS;
-import static org.osmdroid.views.CustomZoomButtonsController.Visibility.NEVER;
 
 public class OsmMap extends AppCompatActivity implements LocationListener {
     ActivityOsmMapBinding binding;
